@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>计数器</title>
+    <style>
+        button{
+            display: inline-block;
+            width: 50px;
+            height: 30px;
+            text-align: center;
+            border: none;
+            outline: none;
+            cursor: pointer;
+        }
+        span{
+            display: inline-block;
+            width: 50px;
+            height: 20px;
+            text-align: center; 
+        }
+    </style>
+</head>
+<body>
+    <div id="app">
+        <button @click="sub">-</button>
+        <span>{{num}}</span>
+        <button @click="add">+</button>
+    </div>
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+
+        new Vue({
+            el:"#app",
+            data:{
+                num:1
+            },
+            methods: {
+                add:function(){
+                    if(this.num<10){
+                        this.num++
+                    }
+                    else{
+                        alert('数量超出限制')
+                    }
+                },
+                sub:function(){
+                    if(this.num>0){
+                        this.num--
+                    }
+                    else{
+                        alert('请选择数量')
+                    }
+                }
+            },
+        })
+    </script>
+</body>
+</html>

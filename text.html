@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <div id="app">
+        <a v-bind:href="link">{{title}}</a>
+        <p>
+            链接地址：<input type="text" v-model='link' >
+            文本:     <input type="text" :value="title" @input="title=$event.target.value">
+            <!-- :value='title' @input='title=$event.target.value' -->
+        </p>    
+    </div>
+   
+    
+
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script src="./index.js" type="module"></script>
+    <script>
+        new Vue({
+            el:"#app",
+            data:{
+                title:'年少有为',
+                link:'https://www.bilibili.com/'
+            }
+        });
+    </script>
+</body>
+</html>

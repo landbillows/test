@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Vue轮播图</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+      .box {
+        width: 100%;
+        position: relative;
+      }
+      .box img {
+        width: 100%;
+      }
+      .left {
+        width: 30px;
+        height: 30px;
+        border-left: 3px solid purple;
+        border-top: 3px solid purple;
+        position: absolute;
+        left: 2%;
+        top: 50%;
+        transform: translate(-50%);
+        transform: rotate(-45deg);
+        cursor: pointer;
+      }
+      .right {
+        width: 30px;
+        height: 30px;
+        border-right: 3px solid purple;
+        border-top: 3px solid purple;
+        position: absolute;
+        right: 2%;
+        top: 50%;
+        transform: translate(-50%);
+        transform: rotate(45deg);
+        cursor: pointer;
+      }
+      ul {
+        width: 150px;
+        position: absolute;
+        bottom: 5%;
+        left: 50%;
+        transform: translate(-50%);
+        display: flex;
+        justify-content: space-between;
+      }
+      ul li {
+        display: inline-block;
+        width: 10px;
+        height: 10px;
+        border-radius: 50%;
+        border: 2px solid orangered;
+        cursor: pointer;
+      }
+      .active {
+        background: orangered;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="box" id="box">
+      <img
+        :src="imgList[activeIndex]"
+        @mouseout="runInv"
+        @mouseover="clearInv"
+      />
+      <div class="left" @click="pitch(prevIndex)"></div>
+      <div class="right" @click="pitch(nextIndex)"></div>
+      <ul>
+        <li
+          v-for="(item,index) in imgList"
+          @click="pitch(index)"
+          :class="{'active':activeIndex == index}"
+        ></li>
+      </ul>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      const land = new Vue({
+        el: "#box",
+        data: {
+          imgList: [],
+          activeIndex: 0,
+          timer: null,
+        },
+        methods: {
+          pitch(index) {
+            this.activeIndex = index;
+          },
+          runInv() {
+            this.timer = setInterval(() => {
+              this.pitch(this.nextIndex);
+            }, 2000);
+          },
+          clearInv() {
+            clearInterval(this.timer);
+          },
+        },
+        created() {
+          this.timer = setInterval(() => {
+            this.pitch(this.nextIndex);
+          }, 2000);
+        },
+        computed: {
+          prevIndex() {
+            if (this.activeIndex == 0) {
+              return this.imgList.length - 1;
+            } else {
+              return this.activeIndex - 1;
+            }
+          },
+          nextIndex() {
+            if (this.activeIndex == this.imgList.length - 1) {
+              return 0;
+            } else {
+              return this.activeIndex + 1;
+            }
+          },
+        },
+        mounted() {
+          let _this = this;
+          let xhr = new XMLHttpRequest();
+          xhr.open("GET", "b.json", true);
+          xhr.send();
+          xhr.onreadystatechange = function () {
+            if (this.readyState === 4) {
+              var datas = JSON.parse(this.responseText);
+              //   _this.imgList = datas;
+              for (var index = 0; index < datas.length; index++) {
+                _this.imgList.push(datas[index].img);
+              }
+            //   console.log(_this.imgList);
+            }
+          };
+        },
+      });
+    </script>
+  </body>
+</html>

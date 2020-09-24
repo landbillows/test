@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>全选 取消 反选</title>
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+      }
+       button {
+        width: 50px;
+        height: 30px;
+        background: #ff0;
+        border: none;
+        outline: none;
+        margin-top: 20px;
+        cursor: pointer;
+        
+      }
+      button:first-child{
+          margin-left: 20%;
+      }
+      #checks {
+        /* margin-top: 20px; */
+        margin-left: 20%;
+      }
+      input{
+          display: block;
+          margin-top: 10px;
+      }
+    </style>
+  </head>
+  <body>
+    <div id="app">
+      <button @click="alls">全选</button>
+      <button @click="cancel">取消</button>
+      <button @click="reversal">反选</button>
+      <form id="checks"  ref="chec">
+        <input v-for="(item,index) in msg" type="checkbox" value="index+1" />
+      </form>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script>
+      new Vue({
+          el:"#app",
+          data:{
+            msg:[1,2,3,4,5,6,7]
+          },
+          methods: {
+            alls(){
+                for (var i =0 ; i < this.$refs.chec.length; i++) {
+                this.$refs.chec[i].checked=true;
+             	};   
+             },
+             cancel(){
+                for (var i =0 ; i < this.$refs.chec.length; i++) {
+                this.$refs.chec[i].checked=false;
+             	};
+             },
+             reversal(){
+                for (var i =0 ; i < this.$refs.chec.length; i++) {
+                    if (this.$refs.chec[i].checked==true) {
+                        this.$refs.chec[i].checked=false;
+                    }else{
+                        this.$refs.chec[i].checked=true;
+                    }
+             	};
+             }
+          },
+          mounted(){
+            console.log(this.msg);
+            console.log(this.$refs.chec[0]);
+            
+          }
+      });
+    </script>
+  </body>
+</html>
